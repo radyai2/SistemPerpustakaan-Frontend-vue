@@ -17,9 +17,9 @@
                 <div class="container-fluid">
                             <div class="card card-primary card-outline">
                                 <div class="card-body">
-                                    <form >
+                                    <form>
                                         <label for="nama" class="form-label">Nama:</label>
-                                        <input type="text" v-model="siswa.nama_siswa" class="form-control" id="nama" autocomplete="off" placeholder="Masukkan nama..">
+                                        <input type="text" v-model="siswa.nama_siswa" class="form-control"  id="nama" autocomplete="off" placeholder="Masukkan nama..">
 
                                         <label for="tgl_lahir" class="form-label">Tanggal Lahir:</label>
                                         <input type="date" v-model="siswa.tanggal_lahir" class="form-control"  id="tgl_lahir">
@@ -55,39 +55,37 @@ import NavigationBar from '../template/NavigationBar.vue'
 import AppSidebar from '../template/AppSidebar.vue'
 
 export default {
-    name:'siswaedit',
     components:{
         'navbar-component' : NavigationBar,
         'sidebar-component' : AppSidebar,
     },
     data(){
         return{
-            siswa: {}
+            siswa: {},
         }
     },
     mounted(){
-        // this.getdatasiswa(this.$route.params.id);
-        // console.log(this.$route.params.id);
-    },
-    created(){
-        // this.getsiswa();
-        this.axios.get('http://localhost:8000/api/getsiswa/${this.$route.params.id}')
-        .then((res) => {
-            this.siswa = res.data
-        });
+        const id = this.$route.params.id;
+        this.getItem(id);
     },
     methods: {
-        // getdatasiswa(id_siswa){
-        //     axios.get('http://localhost:8000/api/getsiswa/${id_siswa}')
-        //     .then(
-        //         ({data}) => {
-        //             console.log(data);
-
-        //             this.siswa = data
-        //         }
-        //     );
-        // },
+        getItem(id){
+            axios.get('http://127.0.0.1:8000/api/getsiswa/' + id)
+            .then(
+                res => {
+                    this.siswa = res.data;
+                }
+            );
+        },
+        UpdateSiswa(){
+            axios.put('http://127.0.0.1:8000/api/updatesiswa/' + this.siswa.id_siswa, this.siswa)
+            .then(
+                res => {
+                    console.log(res.data); 
+                }
+            );
+        }
     }
-
+  
 }
 </script>
