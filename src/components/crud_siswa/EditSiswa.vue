@@ -19,19 +19,19 @@
                                 <div class="card-body">
                                     <form>
                                         <label for="nama" class="form-label">Nama:</label>
-                                        <input type="text" v-model="siswa.nama_siswa" class="form-control"  id="nama" autocomplete="off" placeholder="Masukkan nama..">
+                                        <input type="text" v-model="formData.nama_siswa" class="form-control" id="nama" autocomplete="off" placeholder="Masukkan nama..">
 
                                         <label for="tgl_lahir" class="form-label">Tanggal Lahir:</label>
-                                        <input type="date" v-model="siswa.tanggal_lahir" class="form-control"  id="tgl_lahir">
+                                        <input type="date" class="form-control" id="tgl_lahir">
 
                                         <label for="gender" class="form-label">Gender:</label>
-                                        <select  id="gender" v-model="siswa.gender" class="form-control">
+                                        <select id="gender" class="form-control">
                                         <option value="L">L</option>
                                         <option value="P">P</option>
                                         </select>
 
                                         <label for="alamat" class="form-labek">Alamat:</label>
-                                        <textarea id="alamat" v-model="siswa.alamat" class="form-control"></textarea>
+                                        <textarea id="alamat" class="form-control"></textarea>
                                         <br>
                                         <input type="submit" class="btn btn-primary">
 
@@ -61,31 +61,16 @@ export default {
     },
     data(){
         return{
-            siswa: {},
+            formData:{}
         }
     },
-    mounted(){
-        const id = this.$route.params.id;
-        this.getItem(id);
+    created(){
+        this.DataSiswa();
     },
     methods: {
-        getItem(id){
-            axios.get('http://127.0.0.1:8000/api/getsiswa/' + id)
-            .then(
-                res => {
-                    this.siswa = res.data;
-                }
-            );
-        },
-        UpdateSiswa(){
-            axios.put('http://127.0.0.1:8000/api/updatesiswa/' + this.siswa.id_siswa, this.siswa)
-            .then(
-                res => {
-                    console.log(res.data); 
-                }
-            );
+        DataSiswa(){
+            axios.get('http://127.0.0.1:8000/api/getsiswa/')
         }
     }
-  
 }
 </script>
