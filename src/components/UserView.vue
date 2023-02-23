@@ -27,6 +27,7 @@
                                                 <tr>
                                                     <th style="width: 10px">#</th>
                                                     <th>Nama Lengkap</th>
+                                                    <th>Kelas</th>
                                                     <th>Gender</th>
                                                     <th>Aksi</th>
                                                 </tr>
@@ -35,6 +36,7 @@
                                                 <tr v-for="siswa in siswa" :key="siswa.id_siswa">
                                                     <td>{{ siswa.id_siswa }}</td>
                                                     <td>{{ siswa.nama_siswa }}</td>
+                                                    <td>{{ siswa.nama_kelas }}</td>
                                                     <td>{{ siswa.gender }}</td>
                                                     <td>
                                                         <router-link :to="{path: '/editsiswa/'+siswa.id_siswa}" class="btn btn-primary"> Edit </router-link>
