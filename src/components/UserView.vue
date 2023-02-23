@@ -32,7 +32,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="siswa in result" :key="siswa.id_siswa">
+                                                <tr v-for="siswa in siswa" :key="siswa.id_siswa">
                                                     <td>{{ siswa.id_siswa }}</td>
                                                     <td>{{ siswa.nama_siswa }}</td>
                                                     <td>{{ siswa.gender }}</td>
@@ -70,19 +70,19 @@
         },
         data() {
             return{
-                result: {}
+                siswa: {}
             }
         },
         created() {
-            this.userLoad();
+            this.GetSiswa();
         },
         methods: {
-            userLoad(){
+            GetSiswa(){
                 var page = "http://127.0.0.1:8000/api/getsiswa";
                 axios.get(page).then(
                     ({data})=>{
                         console.log(data);
-                        this.result = data;
+                        this.siswa = data;
                     }
                 );
             },
