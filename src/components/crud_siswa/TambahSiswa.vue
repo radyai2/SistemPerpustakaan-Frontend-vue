@@ -30,6 +30,11 @@
                                         <option value="P">P</option>
                                         </select>
 
+                                        <label for="kelas">Kelas:</label>
+                                        <select v-model="siswa.id_kelas" id="kelas" class="form-control">
+                                        <option v-for="k in kelas" :key="k.id_kelas" :value="k.id_kelas">{{ k.nama_kelas }}</option>
+                                        </select>
+
                                         <label for="alamat" class="form-labek">Alamat:</label>
                                         <textarea v-model="siswa.alamat" id="alamat" class="form-control"></textarea>
                                         <br>
@@ -61,10 +66,22 @@ export default {
     },
    data(){
         return{
-            siswa:{}
+            siswa:{},
+            kelas:{}
         }
    },
+   created(){
+        this.DataKelas();
+   },
    methods: {
+        DataKelas(){
+            axios.get('http://127.0.0.1:8000/api/getkelas')
+            .then(
+            ({data}) => {
+                this.kelas = data
+            }
+        );
+        },
         save(){
             this.save_data();
         },
