@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
 import DashboardView from '../components/DashboardView.vue'
 import UserView from '../components/UserView.vue'
 import BukuView from '../components/BukuView.vue'
