@@ -29,6 +29,7 @@
                                                     <th>Nama Lengkap</th>
                                                     <th>Kelas</th>
                                                     <th>Gender</th>
+                                                    <th>Alamat</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                             </thead>
@@ -38,9 +39,12 @@
                                                     <td>{{ siswa.nama_siswa }}</td>
                                                     <td>{{ siswa.nama_kelas }}</td>
                                                     <td>{{ siswa.gender }}</td>
+                                                    <td>{{ siswa.alamat }}</td>
                                                     <td>
-                                                        <router-link :to="{path: '/editsiswa/'+siswa.id_siswa}" class="btn btn-primary"> Edit </router-link>
-                                                        <button type="button" class="btn btn-danger" @click="remove(siswa)"> Hapus </button>
+                                                        <div class="btn-group">
+                                                            <router-link :to="{path: '/editsiswa/'+siswa.id_siswa}" class="btn btn-primary"> Edit </router-link>
+                                                            <button type="button" class="btn btn-danger" @click="remove(siswa)"> Hapus </button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </tbody>

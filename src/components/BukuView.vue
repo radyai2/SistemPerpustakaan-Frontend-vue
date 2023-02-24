@@ -37,8 +37,10 @@
                                                 <td>{{ buku.judul_buku }}</td>
                                                 <td>{{ buku.pengarang }}</td>
                                                 <td>
-                                                    <router-link :to="{path: '/editbuku/'+buku.id_buku}" class="btn btn-primary"> Edit </router-link>
-                                                    <button type="button" class="btn btn-danger" @click="remove(buku)"> Hapus </button>
+                                                    <div class="btn-group">
+                                                        <router-link :to="{path: '/editbuku/'+buku.id_buku}" class="btn btn-primary"> Edit </router-link>
+                                                        <button type="button" class="btn btn-danger" @click="remove(buku)"> Hapus </button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>
