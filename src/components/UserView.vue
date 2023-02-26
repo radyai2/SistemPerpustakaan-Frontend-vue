@@ -20,7 +20,7 @@
                                 <div class="card card-primary card-outline">
                                     <div class="card-body">
                                         <router-link class="btn btn-info mb-2" to="/tambahsiswa">
-                                            <i class="fas fa-plus"></i> Tambah
+                                            <i class=""></i> Tambah
                                         </router-link>
                                         <table class="table table-bordered">
                                             <thead>
@@ -34,7 +34,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="siswa in siswa" :key="siswa.id_siswa">
+                                                <tr v-for="siswa in result" :key="siswa.id_siswa">
                                                     <td>{{ siswa.id_siswa }}</td>
                                                     <td>{{ siswa.nama_siswa }}</td>
                                                     <td>{{ siswa.nama_kelas }}</td>
@@ -42,7 +42,8 @@
                                                     <td>{{ siswa.alamat }}</td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <router-link :to="{path: '/editsiswa/'+siswa.id_siswa}" class="btn btn-primary"> Edit </router-link>
+                                                            <router-link :to="{path : '/editsiswa/' + siswa.id_siswa}" class="btn btn-primary">Edit</router-link>
+                                                            <!-- <a href="" @click.prevent="ShowEdit" class="btn btn-primary">Edit</a> -->
                                                             <button type="button" class="btn btn-danger" @click="remove(siswa)"> Hapus </button>
                                                         </div>
                                                     </td>
@@ -76,7 +77,13 @@
         },
         data() {
             return{
-                siswa: {}
+                result: {},
+                siswa: {
+                    nama_siswa: '',
+                    tanggal_lahir: '',
+                    gender: '',
+                    alamat: '',
+                },
             }
         },
         created() {
@@ -86,9 +93,9 @@
             GetSiswa(){
                 var page = "http://127.0.0.1:8000/api/getsiswa";
                 axios.get(page).then(
-                    ({data})=>{
+                    ({data})=>{ 
                         console.log(data);
-                        this.siswa = data;
+                        this.result = data;
                     }
                 );
             },
@@ -97,7 +104,15 @@
                 axios.delete(url);
                 alert("Sukses delete User");
                 this.userLoad;
-            }
+            },
+            // ShowEdit(){
+            //     this.$router.push({
+            //         path: '/siswa/:id/edit',
+            //         params: {
+            //             id: this.id
+            //         }
+            //     })
+            // }
         }
     }
     </script>
