@@ -82,9 +82,9 @@ export default {
             }
         );
         },
-        // save(){
-        //     this.save_data();
-        // },
+        save(){
+            this.save_data();
+        },
         save_data(){
             axios.post('http://127.0.0.1:8000/api/createsiswa', this.siswa)
             .then(
