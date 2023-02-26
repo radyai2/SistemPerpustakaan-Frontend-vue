@@ -5,7 +5,7 @@ import UserView from '../components/UserView.vue'
 import BukuView from '../components/BukuView.vue'
 import TambahSiswa from '../components/crud_siswa/TambahSiswa.vue'
 import TambahBuku from '../components/crud_buku/TambahBuku.vue'
-import EditSiswa from '../components/crud_siswa/EditSiswa.vue'
+import EditSiswa from '../components/crud_siswa/EditSiswa'
 import EditBuku from '../components/crud_buku/EditBuku.vue'
 
 Vue.use(VueRouter)
@@ -37,14 +37,16 @@ const routes = [
     component: TambahBuku
   },
   {
+    name: 'Edit',
     path: '/editsiswa/:id',
-    name: 'EditSiswa',
-    component: EditSiswa
+    component: EditSiswa,
+    props: true
   },
   {
-    path: '/editbuku/:id',
     name: 'EditBuku',
-    component: EditBuku
+    path: '/editbuku/:id',
+    component: EditBuku,
+    props: true
   }
 
 
