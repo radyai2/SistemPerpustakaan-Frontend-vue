@@ -1,5 +1,32 @@
 <template>
     <div>
+
+        <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                         <form @submit.prevent="save">
+                                <label for="nama" class="form-label">Judul buku:</label>
+                                <input type="text" class="form-control" v-model="buku.judul_buku" id="nama" autocomplete="off" placeholder="Masukkan nama..">
+
+                                <label for="tgl_lahir" class="form-label">Pengarang:</label>
+                                <input type="text" class="form-control" v-model="buku.pengarang" id="tgl_lahir" autocomplete="off">
+
+                                <br>
+                                <input type="submit" class="btn btn-primary">
+
+                            </form>
+                </div>
+                </div>
+            </div>
+            </div>
+
+
         <navbar-component></navbar-component>
         <sidebar-component></sidebar-component>
         <div class="content-wrapper">            
@@ -19,15 +46,14 @@
                         <div class="col-md-12">
                             <div class="card card-primary card-outline">
                                 <div class="card-body">
-                                    <router-link class="btn btn-info mb-2" to="/tambahbuku">
-                                        <i class="fas fa-plus"></i> Tambah
-                                    </router-link>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
+                                    <br><br>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
                                                 <th style="width: 10px">#</th>
                                                 <th>Judul buku</th>
-                                                <th>Gender</th>
+                                                <th>Pengarang</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -72,7 +98,8 @@ export default {
     },
     data() {
         return{
-            result: {}
+            result: {},
+            buku: {}
         }
     },
     created() {
@@ -93,7 +120,20 @@ export default {
             axios.delete(url);
             alert("Sukses delete buku");
             this.userLoad;
-        }
+        },
+        save(){
+            this.save_data();
+        },
+        save_data(){
+            axios.post('http://127.0.0.1:8000/api/createbuku', this.buku)
+            .then(
+                ({data}) => {
+                    alert("Berhasil Tambah Buku");
+                    this.$router.push('/buku');
+                    this.buku = data;
+                }
+            )
+        },
     }
 }
 </script>
