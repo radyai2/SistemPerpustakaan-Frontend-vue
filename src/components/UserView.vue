@@ -78,8 +78,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="siswa in result" :key="siswa.id_siswa">
-                                                    <td>{{ siswa.id_siswa }}</td>
+                                                <tr v-for="(siswa , index) in result" :key="siswa.id_siswa">
+                                                    <td>{{ index + 1 }}</td>
                                                     <td>{{ siswa.nama_siswa }}</td>
                                                     <td>{{ siswa.nama_kelas }}</td>
                                                     <td>{{ siswa.gender }}</td>
@@ -109,6 +109,7 @@
 
     import Vue from 'vue';
     import axios from 'axios';
+    import swal from 'sweetalert';
 
     Vue.use(axios);
     
@@ -155,7 +156,10 @@
                 axios.post('http://127.0.0.1:8000/api/createsiswa', this.siswa,this.kelas)
                 .then(
                 ({data}) => {
-                    alert("Berhasil Tambah Siswa");
+                    swal({
+                        title: "Sukses tambah siswa",
+                        icon: "success"
+                    });
                     this.siswa = data;
                 }
             )
@@ -163,8 +167,12 @@
             remove(siswa){
                 var url = 'http://127.0.0.1:8000/api/deletesiswa/'+ siswa.id_siswa;
                 axios.delete(url);
-                alert("Sukses delete User");
+                swal({
+                    title: "Sukses delete siswa",
+                    icon: "warning"
+                });
                 this.userLoad;
+                    
             },
             // ShowEdit(){
             //     this.$router.push({
@@ -174,9 +182,11 @@
             //         }
             //     })
             // }
-            showDetail(siswa){
-                this.selected = siswa
-                this.$refs.detailModal.show()
+            showDetail(){
+                swal({
+                    title: "Belum tersedia!",
+                    icon: 'error'
+                })
             },
         }
     }

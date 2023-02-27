@@ -51,7 +51,7 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th style="width: 10px">#</th>
+                                                <th style="width: 10px">ID</th>
                                                 <th>Judul buku</th>
                                                 <th>Pengarang</th>
                                                 <th>Aksi</th>
@@ -64,6 +64,7 @@
                                                 <td>{{ buku.pengarang }}</td>
                                                 <td>
                                                     <div class="btn-group">
+                                                        <button class="btn btn-success" @click="showDetail(buku)">Detail</button>
                                                         <router-link :to="{path: '/editbuku/'+buku.id_buku}" class="btn btn-primary"> Edit </router-link>
                                                         <button type="button" class="btn btn-danger" @click="remove(buku)"> Hapus </button>
                                                     </div>
@@ -85,6 +86,7 @@
 
 import Vue from 'vue';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 Vue.use(axios);
 
@@ -118,7 +120,10 @@ export default {
         remove(buku){
             var url = 'http://127.0.0.1:8000/api/deletebuku/'+ buku.id_buku;
             axios.delete(url);
-            alert("Sukses delete buku");
+            swal({
+                title: "Sukses delete buku",
+                icon: "warning"
+            });
             this.userLoad;
         },
         save(){
@@ -128,12 +133,22 @@ export default {
             axios.post('http://127.0.0.1:8000/api/createbuku', this.buku)
             .then(
                 ({data}) => {
-                    alert("Berhasil Tambah Buku");
+                    swal({
+                        title: "Sukses tambah buku",
+                        icon: "success"
+                    });
                     this.$router.push('/buku');
                     this.buku = data;
                 }
             )
         },
+        showDetail(){
+            swal({
+                title: "Belum tersedia",
+                icon: "error",
+                closeOnClickOutside: true
+            })
+        }
     }
 }
 </script>
