@@ -17,7 +17,7 @@
                 <div class="container-fluid">
                             <div class="card card-primary card-outline">
                                 <div class="card-body">
-                                    <form @submit.prevent="Edit">           
+                                    <form @submit.prevent="EditBuku">           
                                         <label for="buku" class="form-label">Judul Buku:</label>
                                         <input type="text" v-model="buku.judul_buku" class="form-control" id="buku" placeholder="Masukkan judul buku.." autocomplete="off">
 
@@ -45,23 +45,26 @@ import NavigationBar from '../template/NavigationBar.vue'
 import AppSidebar from '../template/AppSidebar.vue'
 
 export default {
-    props: ['id'],
     components:{
         'navbar-component' : NavigationBar,
         'sidebar-component' : AppSidebar,
     },
     data(){
         return{
-            buku: {},
+            buku: {
+                id: '',
+                judul_buku: '',
+                pengarang: '',
+            },
 
         }
     },
+    mounted(){
+        this.buku.id = this.$route.params.id
+    },
     methods: {
-        Edit(){
-            this.EditBuku();
-        },
-        EditBuku(){
-            axios.patch('http://localhost:8000/api/updatebuku/' + this.$router.params.id , this.buku)
+        EditBuku(id){
+            axios.patch('http://localhost:8000/api/updatebuku/' + id , this.buku)
             .then(
                 ({data}) => {
                     alert('Sukses update buku');

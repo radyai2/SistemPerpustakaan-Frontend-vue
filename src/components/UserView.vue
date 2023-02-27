@@ -1,5 +1,49 @@
 <template>
         <div>
+            <!-- MODAL -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Siswa</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                         <form @submit.prevent="save">
+                                <label for="nama" class="form-label">Nama Siswa:</label>
+                                <input type="text" class="form-control" v-model="siswa.nama_siswa" id="nama" autocomplete="off" placeholder="Masukkan nama..">
+
+                                <label for="tgl_lahir" class="form-label">Date:</label>
+                                <input type="date" class="form-control" v-model="siswa.tanggal_lahir" id="tgl_lahir" autocomplete="off">
+                                
+                                <label for="gender" class="form-label">Gender: </label> <br>
+                                <div class="btn-group btn-group-toggle" id="gender" data-toggle="buttons">                                                
+                                        <label class="btn" style="background-color: lightblue;">
+                                            <input type="radio" value="L" v-model="siswa.gender"> Laki-laki
+                                        </label>
+                                        <label class="btn" style="background-color: pink;">
+                                            <input type="radio" value="P" v-model="siswa.gender"> Perempuan
+                                        </label>
+                                </div><br>
+
+                                <label for="kelas">Kelas:</label>
+                                <select v-model="siswa.id_kelas" id="kelas" class="form-control">
+                                <option v-for="k in kelas" :key="k.id_kelas" :value="k.id_kelas">{{ k.nama_kelas }}</option>
+                                </select>
+
+                                <label for="alamat" class="form-label">Alamat:</label>
+                                <input type="text" class="form-control" v-model="siswa.alamat" id="alamat" autocomplete="off">
+
+                                <br>
+                                <input type="submit" class="btn btn-primary">
+
+                            </form>
+                </div>
+                </div>
+            </div>
+            </div>
+            <!-- MODAL END -->
+
             <navbar-component></navbar-component>
             <sidebar-component></sidebar-component>
             <div class="content-wrapper">            
@@ -19,9 +63,9 @@
                             <div class="col-md-12">
                                 <div class="card card-primary card-outline">
                                     <div class="card-body">
-                                        <router-link class="btn btn-info mb-2" to="/tambahsiswa">
-                                            <i class=""></i> Tambah
-                                        </router-link>
+                                        <!-- <router-link to="/tambahsiswa" class="btn btn-primary mb-2">Tambah</router-link> -->
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
+                                        <br><br>
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -42,6 +86,7 @@
                                                     <td>{{ siswa.alamat }}</td>
                                                     <td>
                                                         <div class="btn-group">
+                                                            <button class="btn btn-success" @click="showDetail(siswa)"> Detail </button>
                                                             <router-link :to="{path : '/editsiswa/' + siswa.id_siswa}" class="btn btn-primary">Edit</router-link>
                                                             <!-- <a href="" @click.prevent="ShowEdit" class="btn btn-primary">Edit</a> -->
                                                             <button type="button" class="btn btn-danger" @click="remove(siswa)"> Hapus </button>
@@ -78,18 +123,22 @@
         data() {
             return{
                 result: {},
-                siswa: {
-                    nama_siswa: '',
-                    tanggal_lahir: '',
-                    gender: '',
-                    alamat: '',
-                },
+                siswa: {},
+                kelas: {},
             }
         },
         created() {
             this.GetSiswa();
+            this.DataKelas();
         },
         methods: {
+            DataKelas(){
+                axios.get('http://127.0.0.1:8000/api/getkelas')
+                .then(
+                ({data}) => {
+                    this.kelas = data
+                });
+            },
             GetSiswa(){
                 var page = "http://127.0.0.1:8000/api/getsiswa";
                 axios.get(page).then(
@@ -98,6 +147,18 @@
                         this.result = data;
                     }
                 );
+            },
+            save(){
+                this.save_data();
+            },
+            save_data(){
+                axios.post('http://127.0.0.1:8000/api/createsiswa', this.siswa,this.kelas)
+                .then(
+                ({data}) => {
+                    alert("Berhasil Tambah Siswa");
+                    this.siswa = data;
+                }
+            )
             },
             remove(siswa){
                 var url = 'http://127.0.0.1:8000/api/deletesiswa/'+ siswa.id_siswa;
@@ -113,6 +174,10 @@
             //         }
             //     })
             // }
+            showDetail(siswa){
+                this.selected = siswa
+                this.$refs.detailModal.show()
+            },
         }
     }
     </script>
