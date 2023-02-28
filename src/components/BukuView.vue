@@ -60,8 +60,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="buku in result" :key="buku.id_buku">
-                                                <td>{{ buku.id_buku }}</td>
+                                            <tr v-for="(buku,index) in result" :key="buku.id_buku">
+                                                <td>{{ index + 1 }}</td>
                                                 <td>{{ buku.judul_buku }}</td>
                                                 <td>{{ buku.pengarang }}</td>
                                                 <td>
