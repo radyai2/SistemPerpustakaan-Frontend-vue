@@ -120,11 +120,25 @@ export default {
             );
         },
         remove(buku){
-            var url = 'http://127.0.0.1:8000/api/deletebuku/'+ buku.id_buku;
-            axios.delete(url);
             swal({
-                title: "Sukses delete buku",
-                icon: "warning"
+                title: "Are you sure?",
+                text: "Kalo dah pencet 'OK' gk bisa dibalikin lo",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+            if (willDelete) {
+                var url = 'http://127.0.0.1:8000/api/deletebuku/'+ buku.id_buku;
+                    axios.delete(url);
+                swal("yah file nya udah kehapus!", {
+                    title: "Poof!",
+                icon: "error",
+                });
+            } else {
+                swal("Okee datanya gk jadi di hapus!", {
+                    icon: "success"
+                });
+            }
             });
             this.userLoad;
         },
@@ -146,9 +160,9 @@ export default {
         },
         showDetail(){
             swal({
-                title: "Belum tersedia",
-                icon: "error",
-                closeOnClickOutside: true
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Masih belum tersedia!',
             })
         }
     }

@@ -114,7 +114,7 @@
     Vue.use(axios);
     
     import NavigationBar from '../components/template/NavigationBar.vue'
-    import AppSidebar from '../components/template/AppSidebar.vue'
+    import AppSidebar from '../components/template/AppSidebar.vue'  
 
     export default {
         components:{
@@ -165,12 +165,26 @@
             )
             },
             remove(siswa){
+                swal({
+                title: "Are you sure?",
+                text: "Kalo dah pencet 'OK' gk bisa dibalikin lo",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+            if (willDelete) {
                 var url = 'http://127.0.0.1:8000/api/deletesiswa/'+ siswa.id_siswa;
                 axios.delete(url);
-                swal({
-                    title: "Sukses delete siswa",
-                    icon: "warning"
+                swal("yah file nya udah kehapus!", {
+                    title: "Poof!",
+                    icon: "error",
                 });
+            } else {
+                swal("Okee datanya gk jadi di hapus!", {
+                    icon: "success"
+                });
+            }
+            });
                 this.userLoad;
                     
             },
@@ -184,8 +198,9 @@
             // }
             showDetail(){
                 swal({
-                    title: "Belum tersedia!",
-                    icon: 'error'
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Masih belum tersedia!',
                 })
             },
         }
