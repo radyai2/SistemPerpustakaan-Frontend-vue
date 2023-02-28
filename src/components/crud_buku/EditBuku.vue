@@ -17,12 +17,13 @@
                 <div class="container-fluid">
                             <div class="card card-primary card-outline">
                                 <div class="card-body">
-                                    <form @submit.prevent="EditBuku">           
+                                    <form @submit.prevent="edit">           
+                                        <input type="hidden" v-model="id_buku">
                                         <label for="buku" class="form-label">Judul Buku:</label>
-                                        <input type="text" v-model="buku.judul_buku" class="form-control" id="buku" placeholder="Masukkan judul buku.." autocomplete="off">
+                                        <input type="text" v-model="judul_buku" class="form-control" id="buku" placeholder="Masukkan judul buku.." autocomplete="off">
 
                                         <label for="pengarang" class="form-label">Pengarang</label>
-                                        <input type="text" v-model="buku.pengarang" class="form-control" id="pengarang" placeholder="Masukkan nama pengarang" autocomplete="off">
+                                        <input type="text" v-model="pengarang" class="form-control" id="pengarang" placeholder="Masukkan nama pengarang" autocomplete="off">
                                         <br>
                                         <input type="submit" value="Simpan" class="btn btn-primary">
                                     </form>
@@ -38,11 +39,13 @@
 
 import Vue from 'vue';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 Vue.use(axios);
 
 import NavigationBar from '../template/NavigationBar.vue'
 import AppSidebar from '../template/AppSidebar.vue'
+// import { response } from 'express';
 
 export default {
     components:{
@@ -50,30 +53,57 @@ export default {
         'sidebar-component' : AppSidebar,
     },
     data(){
-        return{
-            buku: {
-                id: '',
+        return{          
+                buku: [],
+                id_buku: '',
                 judul_buku: '',
                 pengarang: '',
-            },
-
         }
     },
-    mounted(){
-        this.buku.id = this.$route.params.id
-    },
     methods: {
-        EditBuku(id){
-            axios.patch('http://localhost:8000/api/updatebuku/' + id , this.buku)
+        getBuku : function(){
+            axios.get('http://localhost:8000/api/getbuku')
             .then(
-                ({data}) => {
-                    alert('Sukses update buku');
-                    this.$router.push('/buku');
-                    this.buku = data
-                }
-            );
+               response => {
+                this.buku = response.data
+               }
+            )
+        },  
+        getDetail(id_buku){
+           axios.get('http://localhost:8000/api/getbuku/' + id_buku)
+           .then(
+            response => {
+                console.log(response.data[0])
+                this.id_buku = response.data[0].id_buku
+                this.judul_buku = response.data[0].judul_buku
+                this.pengarang = response.data[0].pengarang
+            });
         },
+        edit: function(){
+            let dataBuku = 
+            {
+                id_buku : this.id_buku,
+                judul_buku : this.judul_buku,
+                pengarang: this.pengarang,
+            }
+            axios.put('http://localhost:8000/api/updatebuku/' + this.id_buku, dataBuku)
+            .then(
+                res => {
+                    swal({
+                        title:"Sukses update buku",
+                        icon: "success"
+                    })
+                    console.log(res)
+                    this.$router.push('/buku')
+                }
+            )
+        }
+
     },
+    mounted(){
+        this.getBuku()
+        this.getDetail(this.$route.params.id)
+    }
    
 }
 </script>
