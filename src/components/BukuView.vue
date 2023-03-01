@@ -130,10 +130,13 @@ export default {
             if (willDelete) {
                 var url = 'http://127.0.0.1:8000/api/deletebuku/'+ buku.id_buku;
                     axios.delete(url);
-                swal("yah file nya udah kehapus!", {
+                    swal("yah file nya udah kehapus!", {
                     title: "Poof!",
                 icon: "error",
                 });
+                setTimeout(() => {
+                window.location.reload()
+                }, 1000)
             } else {
                 swal("Okee datanya gk jadi di hapus!", {
                     icon: "success"
@@ -153,6 +156,9 @@ export default {
                         title: "Sukses tambah buku",
                         icon: "success"
                     });
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000)
                     this.$router.push('/buku');
                     this.buku = data;
                 }

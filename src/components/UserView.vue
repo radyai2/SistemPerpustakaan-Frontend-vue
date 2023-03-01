@@ -160,6 +160,9 @@
                         title: "Sukses tambah siswa",
                         icon: "success"
                     });
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000)
                     this.siswa = data;
                 }
             )
@@ -173,16 +176,22 @@
                 dangerMode: true,
             }).then((willDelete) => {
             if (willDelete) {
+
                 var url = 'http://127.0.0.1:8000/api/deletesiswa/'+ siswa.id_siswa;
                 axios.delete(url);
+                
                 swal("yah file nya udah kehapus!", {
                     title: "Poof!",
-                    icon: "error",
+                icon: "error",
                 });
+                setTimeout(() => {
+                        window.location.reload()
+                    }, 1000)
             } else {
                 swal("Okee datanya gk jadi di hapus!", {
                     icon: "success"
                 });
+
             }
             });
                 this.userLoad;
