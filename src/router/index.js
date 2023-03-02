@@ -7,6 +7,7 @@ import TambahSiswa from '../components/crud_siswa/TambahSiswa.vue'
 import TambahBuku from '../components/crud_buku/TambahBuku.vue'
 import EditSiswa from '../components/crud_siswa/EditSiswa'
 import EditBuku from '../components/crud_buku/EditBuku.vue'
+import Peminjaman from '../components/TransaksiView.vue'
 
 Vue.use(VueRouter)
 
@@ -47,6 +48,10 @@ const routes = [
     path: '/editbuku/:id',
     component: EditBuku,
     props: true
+  },
+  {
+    path: '/peminjaman',
+    component: Peminjaman
   }
 
 

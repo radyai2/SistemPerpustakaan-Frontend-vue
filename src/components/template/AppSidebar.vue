@@ -62,7 +62,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="/peminjaman" class="nav-link">
                                 <i class="fas fa-file-export nav-icon"></i>
                                 <p>Peminjaman</p>
                             </a>
