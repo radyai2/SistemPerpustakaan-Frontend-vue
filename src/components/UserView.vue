@@ -1,6 +1,6 @@
 <template>
         <div>
-            <!-- MODAL -->
+            <!-- MODAL TAMBAH SISWA-->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -18,7 +18,7 @@
                                 
                                 <label for="gender" class="form-label">Gender: </label> <br>
                                 <div class="btn-group btn-group-toggle" id="gender" data-toggle="buttons">                                                
-                                        <label class="btn" style="background-color: lightblue;">
+                                        <label class="btn" style="background-color:lightblue">
                                             <input type="radio" value="L" v-model="siswa.gender"> Laki-laki
                                         </label>
                                         <label class="btn" style="background-color: pink;">
@@ -42,7 +42,25 @@
                 </div>
             </div>
             </div>
-            <!-- MODAL END -->
+            <!-- MODAL TAMBAH END -->
+
+
+                <!-- DETAIL MODAL -->
+                <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detail {{ nama_siswa }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                      Nama: {{ nama_siswa }}
+                     
+                </div>
+                </div>
+            </div>
+            </div>
+            <!--DETAIL MODAL END -->
 
             <navbar-component></navbar-component>
             <sidebar-component></sidebar-component>
@@ -86,7 +104,8 @@
                                                     <td>{{ siswa.alamat }}</td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <button class="btn btn-success" @click="showDetail(siswa)"> Detail </button>
+                                                            <!-- <button class="btn btn-success" @click="showDetail(siswa)"> Detail </button> -->
+                                                            <button type="button" @click="showDetail()" class="btn btn-success" >Detail</button>
                                                             <router-link :to="{path : '/editsiswa/' + siswa.id_siswa}" class="btn btn-primary">Edit</router-link>
                                                             <!-- <a href="" @click.prevent="ShowEdit" class="btn btn-primary">Edit</a> -->
                                                             <button type="button" class="btn btn-danger" @click="remove(siswa)"> Hapus </button>
@@ -94,7 +113,10 @@
                                                     </td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table><br>
+                                        <!-- <button :disabled="currentPage === 1" @click="setPage(currentPage - 1)" class="btn btn-info">Prev</button>
+                                        <button v-for="page in pages" :key="page" @click="setPage(page)" :class="{ active: currentPage === page }" class="btn btn-info">{{ page }}</button>
+                                        <button :disabled="currentPage === pageCount" @click="setPage(currentPage + 1)" class="btn btn-info">Next</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -121,18 +143,46 @@
             'navbar-component' : NavigationBar,
             'sidebar-component' : AppSidebar,
         },
-        data() {
+        data : function () {
             return{
-                result: {},
+                result: [],
                 siswa: {},
                 kelas: {},
+                    id_siswa: "",
+                    id_kelas: "",
+                    nama_siswa: "",
+                    tanggal_lahir: "",
+                    gender: "",
+                    alamat: "",
+                // currentPage: 1,
+                // pageSize: 5,
+                // pageCount: 0,
             }
         },
+        mounted(){
+            this.loadData()
+            
+        },
         created() {
-            this.GetSiswa();
-            this.DataKelas();
+            this.GetSiswa()
+            this.DetailSiswa()
+            this.DataKelas()
         },
         methods: {
+            // async loadData(){
+            //     const response = await axios.get('http://127.0.0.1:8000/api/getsiswa')
+            //     this.siswa = response.data
+
+            //     this.pageCount = Math.ceil(this.siswa.length / this.pageSize)
+            // },
+            // setPage(pageNumber){
+            //     this.currentPage = pageNumber
+            // },
+            // getPaginateSiswa(){
+            //     const startIndex = (this.currentPage - 1) * this.pageSize
+            //     const endIndex = startIndex + this.pageSize
+            //     return this.siswa.slice(startIndex, endIndex)   
+            // },
             DataKelas(){
                 axios.get('http://127.0.0.1:8000/api/getkelas')
                 .then(
@@ -156,16 +206,15 @@
                 axios.post('http://127.0.0.1:8000/api/createsiswa', this.siswa,this.kelas)
                 .then(
                 ({data}) => {
-                    swal({
-                        title: "Sukses tambah siswa",
-                        icon: "success"
+                    swal("Sukses tambah siswa", {
+                        icon: "success",
+                        buttons: false
                     });
                     setTimeout(() => {
                         window.location.reload()
-                    }, 1000)
+                    }, 1200)
                     this.siswa = data;
-                }
-            )
+                })
             },
             remove(siswa){
                 swal({
@@ -182,11 +231,12 @@
                 
                 swal("yah file nya udah kehapus!", {
                     title: "Poof!",
-                icon: "error",
+                    icon: "success",
+                    button: false
                 });
                 setTimeout(() => {
                         window.location.reload()
-                    }, 1000)
+                    }, 1300)
             } else {
                 swal("Okee datanya gk jadi di hapus!", {
                     icon: "success"
@@ -212,6 +262,29 @@
                     text: 'Masih belum tersedia!',
                 })
             },
+        },
+        DetailSiswa(siswa){
+            axios.get('http://localhost:8000/api/getsiswa/' + siswa.id_siswa)
+            .then((response) => {
+                    console.log(response.data[0])
+                    this.id_siswa = response.data[0].id_siswa
+                    this.id_kelas = response.data[0].id_kelas
+                    this.nama_siswa = response.data[0].nama_siswa
+                    this.tanggal_lahir = response.data[0].tanggal_lahir
+                    this.gender = response.data[0].gender
+                    this.alamat = response.data[0].alamat
+                }
+            )
         }
+        // computed: {
+        //     pages(){
+        //         const pages = []
+        //         for (let i = 1; i <= this.pageCount; i++){
+        //             pages.push(i)
+        //         }
+        //         return pages
+        //     }
+        // }
+        
     }
     </script>

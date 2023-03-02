@@ -35,7 +35,7 @@
                                         <option v-for="k in kelas" :key="k.id_kelas" :value="k.id_kelas">{{ k.nama_kelas }}</option>
                                         </select>
 
-                                        <label for="alamat" class="form-labek">Alamat:</label>
+                                        <label for="alamat" class="form-label">Alamat:</label>
                                         <textarea v-model="siswa.alamat" id="alamat" class="form-control"></textarea>
                                         <br>
                                         <input type="submit" class="btn btn-primary">

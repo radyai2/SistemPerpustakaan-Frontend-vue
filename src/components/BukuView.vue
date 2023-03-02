@@ -17,6 +17,8 @@
                                 <label for="tgl_lahir" class="form-label">Pengarang:</label>
                                 <input type="text" class="form-control" v-model="buku.pengarang" id="tgl_lahir" autocomplete="off">
 
+                                <label for="foto" class="form-label">Foto</label>
+                                <input type="file" ref="fileInput" class="form-control">
                                 <br>
                                 <input type="submit" class="btn btn-primary">
 
@@ -55,6 +57,7 @@
                                             <tr>
                                                 <th style="width: 10px">ID</th>
                                                 <th>Judul buku</th>
+                                                <th>Foto</th>
                                                 <th>Pengarang</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -63,6 +66,7 @@
                                             <tr v-for="(buku,index) in result" :key="buku.id_buku">
                                                 <td>{{ index + 1 }}</td>
                                                 <td>{{ buku.judul_buku }}</td>
+                                                <td></td>
                                                 <td>{{ buku.pengarang }}</td>
                                                 <td>
                                                     <div class="btn-group">
