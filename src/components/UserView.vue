@@ -27,9 +27,9 @@
                                 </div><br>
 
                                 <label for="kelas">Kelas:</label>
-                                <select v-model="siswa.id_kelas" id="kelas" class="form-control">
-                                <option v-for="k in kelas" :key="k.id_kelas" :value="k.id_kelas">{{ k.nama_kelas }}</option>
-                                </select>
+                                        <select v-model="siswa.id_kelas" id="kelas" class="form-control">
+                                        <option v-for="k in result" :key="k.id_kelas" :value="k.id_kelas">{{ k.nama_kelas }}</option>
+                                    </select>
 
                                 <label for="alamat" class="form-label">Alamat:</label>
                                 <input type="text" class="form-control" v-model="siswa.alamat" id="alamat" autocomplete="off">
@@ -67,9 +67,9 @@
             <div class="content-wrapper">            
                 <div class="content-header">
                     <div class="container-fluid">
-                        <div class="row mb-2">
+                        <div class="row">
                             <div class="col-sm-6">
-                                <h1 class="m-0">Data Anggota</h1>
+                                <h1 class="">Data Anggota</h1>
                             </div>          
                         </div>
                     </div>
@@ -83,7 +83,8 @@
                                     <div class="card-body">
                                         <!-- <router-link to="/tambahsiswa" class="btn btn-primary mb-2">Tambah</router-link> -->
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
-                                        <br><br>
+                                        <br>
+                                        <br>
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -104,8 +105,8 @@
                                                     <td>{{ siswa.alamat }}</td>
                                                     <td>
                                                         <div class="btn-group">
-                                                            <!-- <button class="btn btn-success" @click="showDetail(siswa)"> Detail </button> -->
-                                                            <button type="button" @click="showDetail()" class="btn btn-success" >Detail</button>
+                                                            <button type="button" class="btn btn-success" @click="getDetail(siswa)" data-bs-toggle="modal" data-bs-target="#detailModal">Detail</button>
+                                                            <!-- <button type="button" @click="showDetail()" class="btn btn-success" >Detail</button> -->
                                                             <router-link :to="{path : '/editsiswa/' + siswa.id_siswa}" class="btn btn-primary">Edit</router-link>
                                                             <!-- <a href="" @click.prevent="ShowEdit" class="btn btn-primary">Edit</a> -->
                                                             <button type="button" class="btn btn-danger" @click="remove(siswa)"> Hapus </button>
@@ -137,17 +138,19 @@
     
     import NavigationBar from '../components/template/NavigationBar.vue'
     import AppSidebar from '../components/template/AppSidebar.vue'  
+    // import AppSidebar from '../components/template/SidebarAdmin2.vue'
+    // import NavigationBar from '../components/template/NavbarAdmin2.vue'
 
     export default {
         components:{
             'navbar-component' : NavigationBar,
             'sidebar-component' : AppSidebar,
         },
-        data : function () {
+        data() {
             return{
                 result: [],
                 siswa: {},
-                kelas: {},
+                datakelas: {},
                     id_siswa: "",
                     id_kelas: "",
                     nama_siswa: "",
@@ -160,13 +163,13 @@
             }
         },
         mounted(){
-            this.loadData()
+            // this.loadData()
             
         },
         created() {
             this.GetSiswa()
-            this.DetailSiswa()
-            this.DataKelas()
+            // this.getDetail()
+            this.getkelas()
         },
         methods: {
             // async loadData(){
@@ -183,13 +186,7 @@
             //     const endIndex = startIndex + this.pageSize
             //     return this.siswa.slice(startIndex, endIndex)   
             // },
-            DataKelas(){
-                axios.get('http://127.0.0.1:8000/api/getkelas')
-                .then(
-                ({data}) => {
-                    this.kelas = data
-                });
-            },
+
             GetSiswa(){
                 var page = "http://127.0.0.1:8000/api/getsiswa";
                 axios.get(page).then(
@@ -198,6 +195,15 @@
                         this.result = data;
                     }
                 );
+            },
+            getkelas(){
+                axios.get('http://127.0.0.1:8000/api/getkelas')
+                .then(
+                    ({data}) => {
+                        console.log(data);
+                        this.datakelas = data;
+                    }
+                )
             },
             save(){
                 this.save_data();
@@ -263,8 +269,17 @@
                 })
             },
         },
-        DetailSiswa(siswa){
-            axios.get('http://localhost:8000/api/getsiswa/' + siswa.id_siswa)
+        // contohremove(siswa){
+        //     axios.delete('http://localhost:8000/api/deletesiswa/' + siswa.id_siswa)
+        //     .then(
+        //         ({data}) => {
+        //             this.siswa = data
+        //             alert("sukses hapus data");
+        //         }
+        //     )
+        // },
+        getDetail(siswa){
+            this.axios.get('http://localhost:8000/api/getsiswa/' + siswa.id_siswa)
             .then((response) => {
                     console.log(response.data[0])
                     this.id_siswa = response.data[0].id_siswa

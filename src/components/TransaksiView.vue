@@ -18,7 +18,7 @@
 
                             <label for="kelas" class="form-label">Kelas: </label>
                             <select v-model="peminjaman.id_kelas" class="form-control">
-                            <option v-for="s in siswa" :key="s.id_kelas" :value="s.id_kelas">{{ s.nama_kelas }}</option>
+                            <option v-for="s in kelas" :key="s.id_kelas" :value="s.id_kelas">{{ s.nama_kelas }}</option>
                             </select>
 
                             <label for="buku" class="form-label">Buku</label>
@@ -71,7 +71,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(p,index) in getpinjam" :key="index">
+                                                <tr v-for="p in getpinjam" :key="p.id_peminjaman">
                                                     <td>{{ p.id_peminjaman }}</td>
                                                     <td>{{ p.nama_siswa }}</td>
                                                     <td>{{ p.tgl_pinjam }}</td>
@@ -82,7 +82,8 @@
                                                     </td>
                                                     <td>
                                                         <div class="btn-group">                                                        
-                                                            <button class="btn btn-success" @click="detail()">Detail</button>  
+                                                            <!-- <button class="btn btn-success" @click="detail()">Detail</button>   -->
+                                                            <router-link :to="{path: '/detailpeminjaman/'+p.id_peminjaman}" class="btn btn-primary"> Detail </router-link>
                                                             <span v-if="p.status == 'dipinjam'"><button class="btn btn-warning" @click="kembali(p)">Kembali</button></span>  
                                                             <button type="button" @click="hapus(p)" class="btn btn-danger">Hapus</button>                                                      
                                                         </div>
@@ -121,6 +122,7 @@
                 pinjam : {},
                 siswa: {},
                 buku:{},
+                kelas:{},
                 peminjaman: {
                     id_siswa: '',
                     id_kelas: '',
@@ -133,6 +135,7 @@
             this.getsiswa()
             this.getbuku()
             this.getpeminjaman()
+            this.getkelas()
             
         },
         methods : {
@@ -149,6 +152,14 @@
                 .then(
                     ({data}) => {
                         this.buku = data
+                    }
+                )
+            },
+            getkelas(){
+                axios.get('http://localhost:8000/api/getkelas')
+                .then(
+                    ({data}) => {
+                        this.kelas = data
                     }
                 )
             },
