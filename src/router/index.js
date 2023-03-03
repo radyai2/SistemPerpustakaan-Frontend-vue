@@ -8,6 +8,7 @@ import TambahBuku from '../components/crud_buku/TambahBuku.vue'
 import EditSiswa from '../components/crud_siswa/EditSiswa'
 import EditBuku from '../components/crud_buku/EditBuku.vue'
 import Peminjaman from '../components/TransaksiView.vue'
+import detailpeminjaman from '../components/peminjaman/DetailPeminjaman.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,10 @@ const routes = [
   {
     path: '/peminjaman',
     component: Peminjaman
+  },
+  {
+    path: '/detailpeminjaman/:id',
+    component: detailpeminjaman
   }
 
 
