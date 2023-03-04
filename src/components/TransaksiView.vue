@@ -230,8 +230,8 @@
                     dangerMode: true,
                     })
                     .then((willDelete) => {
-                        axios.put('http://localhost:8000/api/pengembalian/' + p.id_peminjaman)
                     if (willDelete) {
+                        axios.put('http://localhost:8000/api/pengembalian/' + p.id_peminjaman)
                         swal("Poof! Berhasil mengembalikan buku!", {
                         icon: "success",
                         button: false
@@ -240,7 +240,10 @@
                             window.location.reload()
                         }, 1200);
                     } else {
-                        swal("Ok gk jadi!");
+                        swal("Ok gk jadi!",{
+                            icon: 'success'
+                        })
+                        
                     }
                  });
             },
