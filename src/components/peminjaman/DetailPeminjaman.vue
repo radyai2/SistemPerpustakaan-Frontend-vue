@@ -20,8 +20,8 @@
                         <div class="col-md-12">
                             <div class="card card-primary card-outline">
                                 <div class="card-body">
-                                    <span><b>Nama:</b></span>  {{nama_siswa}} <br>
-                                    <span><b>kelas:</b></span>  {{nama_kelas}} <br>
+                                    <span><b>Nama:</b></span>  {{nama}} <br>
+                                    <span><b>Alamat:</b></span>  {{alamat}} <br>
                                     <span><b>Judul buku:</b></span>  {{judul_buku}} <br>
                                     <span><b>Tanggal pinjam:</b></span>  {{tgl_pinjam}} <br>
                                     <span><b>Tanggal kembali:</b></span>  {{tgl_kembali}} <br>
@@ -51,8 +51,8 @@ export default {
             peminjaman:[],
             id_siswa: '',
             id_kelas: '',
-            nama_kelas: '',
-            nama_siswa: '',
+            alamat: '',
+            nama: '',
             judul_buku: '',
             tgl_pinjam: '',
             tgl_kembali: '',
@@ -70,8 +70,8 @@ export default {
                     console.log(response.data[0])
                     this.id_siswa = response.data[0].id_siswa
                     this.id_kelas = response.data[0].id_kelas
-                    this.nama_kelas = response.data[0].nama_kelas
-                    this.nama_siswa = response.data[0].nama_siswa
+                    this.nama = response.data[0].nama
+                    this.alamat = response.data[0].alamat
                     this.judul_buku = response.data[0].judul_buku
                     this.tgl_kembali = response.data[0].tgl_kembali
                     this.tgl_pinjam = response.data[0].tgl_pinjam
