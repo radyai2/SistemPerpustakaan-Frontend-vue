@@ -25,7 +25,14 @@
                                     <span><b>Judul buku:</b></span>  {{judul_buku}} <br>
                                     <span><b>Tanggal pinjam:</b></span>  {{tgl_pinjam}} <br>
                                     <span><b>Tanggal kembali:</b></span>  {{tgl_kembali}} <br>
+                                    <span><b>Tenggat:</b></span>  {{tenggat}} <br>
+
+                                    <span v-if="tgl_kembali > tenggat"><b>Keterangan:</b><span class="badge bg-danger">Terlambat</span> </span>  
+                                    <span v-else ><b>Keterangan:</b><span class="badge bg-success">Tepat waktu</span> </span>  <br>
+
                                     <span><b>Status:</b></span>  {{status}} <br>
+                                    <span v-if="tgl_kembali > tenggat"><b>Denda: </b> {{ denda }}</span>
+                                    <span v-else ><b>Denda: </b> 0 </span>  <br>
                                 </div>
                             </div>
                         </div>
@@ -57,6 +64,8 @@ export default {
             tgl_pinjam: '',
             tgl_kembali: '',
             status: '',
+            denda: '',
+            tenggat: '',
         }
     },
     created(){
@@ -76,6 +85,8 @@ export default {
                     this.tgl_kembali = response.data[0].tgl_kembali
                     this.tgl_pinjam = response.data[0].tgl_pinjam
                     this.status = response.data[0].status
+                    this.denda = response.data[0].denda
+                    this.tenggat = response.data[0].tenggat
                 }
             )
         }
