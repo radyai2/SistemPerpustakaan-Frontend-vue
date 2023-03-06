@@ -264,6 +264,8 @@ export default {
                     }
                 });
         },
+
+        //KALO MAU COPAS INI GK USAH DI COPAS
         filter(){
             axios.get('http://localhost:8000/api/getstatus/' + this.getstatus)
             .then(
