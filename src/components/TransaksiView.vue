@@ -15,14 +15,16 @@
                             <!-- <select v-model="peminjaman.id_siswa" id="nama_siswa" class="form-control">
                             <option v-for="s in siswa" :key="s.id_siswa" :value="s.id_siswa">{{ s.nama_siswa }}</option>
                             </select> -->
-                            <input type="text" class="form-control" v-model="peminjaman.nama" autocomplete="off" placeholder="Masukkan nama..">
-                            
+                            <input type="text" class="form-control" v-model="peminjaman.nama" autocomplete="off"
+                                placeholder="Masukkan nama..">
+
 
                             <label for="alamat" class="form-label">Alamat: </label>
                             <!-- <select v-model="peminjaman.id_kelas" class="form-control">
                                 <option v-for="s in kelas" :key="s.id_kelas" :value="s.id_kelas">{{ s.nama_kelas }}</option>
                             </select> -->
-                            <input type="text" class="form-control" v-model="peminjaman.alamat" autocomplete="off" placeholder="Masukkan alamat...">
+                            <input type="text" class="form-control" v-model="peminjaman.alamat" autocomplete="off"
+                                placeholder="Masukkan alamat...">
 
                             <label for="buku" class="form-label">Buku</label>
                             <select v-model="peminjaman.id_buku" id="buku" class="form-control">
@@ -60,11 +62,12 @@
                             <div class="card card-primary card-outline">
                                 <div class="card-body">
 
-                                            <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            Tambah
-                                            </button>
+                                    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        Tambah
+                                    </button>
 
-                                            <!-- <a href="/tambahpinjam" class="btn btn-primary mb-2">Tambah</a> -->
+                                    <!-- <a href="/tambahpinjam" class="btn btn-primary mb-2">Tambah</a> -->
 
                                     <table class="table table-bordered">
                                         <thead>
@@ -104,6 +107,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
+                                    <!-- <TailwindPagination :data="getpinjam" @pagination-change-page="getpeminjaman"></TailwindPagination> -->
+                                    <!-- <paginate-component :data="getpinjam" @pagination-change-page="getpeminjaman"></paginate-component> -->
                                 </div>
                             </div>
                         </div>
@@ -121,6 +127,9 @@ import sidebar from '../components/template/AppSidebar.vue'
 import axios from 'axios'
 import Vue from 'vue'
 import swal from 'sweetalert'
+// import { Bootstrap4Pagination } from 'laravel-vue-pagination';
+// import { Bootstrap5Pagination } from 'laravel-vue-pagination';
+// import pagination from 'laravel-vue-pagination'
 
 
 Vue.use(axios)
@@ -128,7 +137,8 @@ Vue.use(axios)
 export default {
     components: {
         'navbar-component': navbar,
-        'sidebar-component': sidebar
+        'sidebar-component': sidebar,
+        // 'paginate-component' : pagination
     },
     data() {
         return {
@@ -266,13 +276,13 @@ export default {
         },
 
         //KALO MAU COPAS INI GK USAH DI COPAS
-        filter(){
+        filter() {
             axios.get('http://localhost:8000/api/getstatus/' + this.getstatus)
-            .then(
-                ({data}) => {
-                    this.siswa = data
-                }
-            )
+                .then(
+                    ({ data }) => {
+                        this.siswa = data
+                    }
+                )
         }
     }
 }
