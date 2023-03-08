@@ -12,6 +12,7 @@ import detailpeminjaman from '../components/peminjaman/DetailPeminjaman.vue'
 import tambahpinjam from '../components/peminjaman/TambahPeminjaman.vue'
 
 Vue.use(VueRouter)
+Vue.use(require('vue-moment'))
 
 const routes = [
   {
