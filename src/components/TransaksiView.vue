@@ -1,3 +1,7 @@
+
+<script setup>
+// import { Bootstrap4Pagination } from 'laravel-vue-pagination'
+</script>
 <template>
     <div>
 
@@ -9,20 +13,20 @@
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <form @submit.prevent="save">
+                <div class="modal-body">
+                    <form @submit.prevent="save">
                             <label for="nama_siswa" class="form-label">Nama:</label>
                             <!-- <select v-model="peminjaman.id_siswa" id="nama_siswa" class="form-control">
-                            <option v-for="s in siswa" :key="s.id_siswa" :value="s.id_siswa">{{ s.nama_siswa }}</option>
-                            </select> -->
+                                <option v-for="s in siswa" :key="s.id_siswa" :value="s.id_siswa">{{ s.nama_siswa }}</option>
+                                </select> -->
                             <input type="text" class="form-control" v-model="peminjaman.nama" autocomplete="off"
                                 placeholder="Masukkan nama..">
 
 
                             <label for="alamat" class="form-label">Alamat: </label>
                             <!-- <select v-model="peminjaman.id_kelas" class="form-control">
-                                <option v-for="s in kelas" :key="s.id_kelas" :value="s.id_kelas">{{ s.nama_kelas }}</option>
-                            </select> -->
+                                    <option v-for="s in kelas" :key="s.id_kelas" :value="s.id_kelas">{{ s.nama_kelas }}</option>
+                                </select> -->
                             <input type="text" class="form-control" v-model="peminjaman.alamat" autocomplete="off"
                                 placeholder="Masukkan alamat...">
 
@@ -107,7 +111,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-
+                                    <div class="pt-3 display-flex float-right pr-5">
+                                        <Bootstrap4Pagination :data="getpinjam"
+                                            @pagination-change-page="getpeminjaman" />
+                                    </div>
                                     <!-- <TailwindPagination :data="getpinjam" @pagination-change-page="getpeminjaman"></TailwindPagination> -->
                                     <!-- <paginate-component :data="getpinjam" @pagination-change-page="getpeminjaman"></paginate-component> -->
                                 </div>
@@ -214,6 +221,7 @@ export default {
                 .then(
                     ({ data }) => {
                         this.getpinjam = data
+                        // this.load = false
                     }
                 )
         },
