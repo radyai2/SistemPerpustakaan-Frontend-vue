@@ -10,6 +10,8 @@ import EditBuku from '../components/crud_buku/EditBuku.vue'
 import Peminjaman from '../components/TransaksiView.vue'
 import detailpeminjaman from '../components/peminjaman/DetailPeminjaman.vue'
 import tambahpinjam from '../components/peminjaman/TambahPeminjaman.vue'
+import denda from '../components/peminjaman/DendaView.vue'
+import history from '../components/peminjaman/HistoryView.vue'
 
 Vue.use(VueRouter)
 Vue.use(require('vue-moment'))
@@ -63,6 +65,14 @@ const routes = [
   {
     path: '/tambahpinjam',
     component: tambahpinjam
+  },
+  {
+    path: '/denda',
+    component: denda
+  },
+  {
+    path: '/history',
+    component: history
   }
 
 
