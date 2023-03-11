@@ -82,7 +82,7 @@
                                 <div class="card card-primary card-outline">
                                     <div class="card-body">
                                         <!-- <router-link to="/tambahsiswa" class="btn btn-primary mb-2">Tambah</router-link> -->
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i><i class="bi bi-person-fill-add"></i></i></button>
                                         <br>
                                         <br>
                                         <table class="table table-bordered">

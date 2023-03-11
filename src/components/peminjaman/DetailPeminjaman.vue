@@ -10,13 +10,20 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="">
-                            <label for="kembali">Tgl kembali</label>
-                            <input type="date" v-model="tgl_kembali" id="kembali" class="form-control">
+                        <form @submit.prevent="edit_detail">
+                            <input type="hidden" v-model="id_peminjaman">
+
+                            
+                            <label for="pinjam">Tgl pinjam</label>
+                            <input type="date" v-model="tgl_pinjam" id="pinjam" class="form-control">
                             <small>*boleh tidak di ubah</small><br>
 
+                            <label for="kembali">Tgl kembali</label>      
+                            <input type="date" v-model="tgl_kembali" id="kembali" class="form-control">
+
                             <label for="tenggat">Tenggat</label>
-                            <input type="date" v-model="tgl_pinjam" id="tenggat" class="form-control">
+                            <input type="date" class="form-control" v-model="tenggat" id="tenggat">
+                            <small>*boleh tidak di ubah</small><br>
 
                             <label for="denda">Denda</label>
                             <input type="number" class="form-control" v-model="denda" id="denda">
@@ -60,7 +67,7 @@
                         </div>
                     </div>
                     <div class="btn-group">
-                        <router-link to="/peminjaman" class="btn btn-primary">Kembali</router-link>
+                        <router-link to="/history" class="btn btn-primary">Kembali</router-link>
                         <span v-if="status == 'kembali'"> <button class="btn btn-success" data-bs-target="#exampleModalToggle"
                                 data-bs-toggle="modal">Edit</button></span>
                     </div>
@@ -73,6 +80,7 @@
                         <div class="col-md-12">
                             <div class="card card-primary card-outline">
                                 <div class="card-body">
+                                    <span><b>ID:</b></span> {{ id_peminjaman }} <br>
                                     <span><b>Nama:</b></span> {{ nama }} <br>
                                     <span><b>Alamat:</b></span> {{ alamat }} <br>
                                     <span><b>Judul buku:</b></span> {{ judul_buku }} <br>
@@ -89,7 +97,7 @@
 
                                     <span><b>Status:</b></span> {{ status }} <br>
 
-                                    <span v-if="tgl_kembali > tenggat"><b>Denda: </b>{{ denda }} </span>
+                                    <span v-if="tgl_kembali > tenggat"><b>Denda: </b>Rp.{{ denda }} </span>
                                     <span v-else><b>Denda: </b> 0 </span> <br>
 
 
@@ -108,7 +116,7 @@ import navbar from '../template/NavigationBar.vue'
 import sidebar from '../template/AppSidebar.vue'
 import axios from 'axios'
 // import { swal } from 'public/plugins/sweetalert2/sweetalert2.all'
-// import swal from 'sweetalert'
+import swal from 'sweetalert'
 
 export default {
     components: {
@@ -133,10 +141,11 @@ export default {
     },
     created() {
         this.getdetail(this.$route.params.id)
+        // this.edit_detail(this.$route.params.id)
     },
     methods: {
-        getdetail(id_peminjaman) {
-            axios.get('http://localhost:8000/api/peminjaman/' + id_peminjaman)
+        getdetail(id) {
+            axios.get('http://localhost:8000/api/peminjaman/' + id)
                 .then(
                     (response) => {
                         console.log(response.data[0])
@@ -154,6 +163,26 @@ export default {
                     }
                 )
         },
+        edit_detail(){
+            let datapeminjaman = {
+                id_peminjaman : this.id_peminjaman,
+                tgl_pinjam : this.tgl_pinjam,
+                tgl_kembali : this.tgl_kembali,
+                tenggat : this.tenggat,
+                denda : this.denda,
+            }
+            axios.put('http://localhost:8000/api/editpeminjaman/' + this.id_peminjaman , datapeminjaman)
+            .then(
+                (response) => {
+                    console.log(response)
+                    swal({
+                        title: 'Sukses update peminjaman',
+                        icon: 'success'
+                    })
+                    this.$router.push('/history')
+                }
+            )
+        }
         // bayardenda() {
         //     swal({
         //         title: 'Ingin bayar bayar denda?',
