@@ -30,7 +30,7 @@
                                                 <th style="width: 10px">ID</th>
                                                 <th>Nama Siswa</th>
                                                 <th>Denda</th>
-                                                <th>Tanggal Pinjam</th>
+                                                <th>Alasan</th>
                                                 <th>Tanggal Kembali</th>
                                                 <th>Tenggat</th>
                                                 <th>Status</th>
@@ -42,7 +42,12 @@
                                                 <td>{{ p.id_peminjaman }}</td>
                                                 <td>{{ p.nama }}</td>
                                                 <td>Rp.{{ p.denda }}</td>
-                                                <td>{{ p.tgl_pinjam }}</td>
+                                                <td>
+                                                    <span v-if="p.tgl_kembali > p.tenggat"
+                                                        class="badge bg-danger">Terlambat</span>
+
+                                                    <span v-else class="badge bg-danger">Buku rusak</span>
+                                                </td>
                                                 <td>{{ p.tgl_kembali }}</td>
                                                 <td>{{ p.tenggat }}</td>
                                                 <td>

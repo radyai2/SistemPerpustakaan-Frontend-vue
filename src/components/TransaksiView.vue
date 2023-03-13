@@ -19,7 +19,7 @@
                             <!-- <select v-model="peminjaman.id_siswa" id="nama_siswa" class="form-control">
                                     <option v-for="s in siswa" :key="s.id_siswa" :value="s.id_siswa">{{ s.nama_siswa }}</option>
                                     </select> -->
-                            <input type="text" class="form-control" v-model="peminjaman.nama" autocomplete="off"
+                            <input type="text" class="form-control" required v-model="peminjaman.nama" autocomplete="off"
                                 placeholder="Masukkan nama..">
 
 
@@ -27,11 +27,11 @@
                             <!-- <select v-model="peminjaman.id_kelas" class="form-control">
                                         <option v-for="s in kelas" :key="s.id_kelas" :value="s.id_kelas">{{ s.nama_kelas }}</option>
                                     </select> -->
-                            <input type="text" class="form-control" v-model="peminjaman.alamat" autocomplete="off"
+                            <input type="text" class="form-control" required v-model="peminjaman.alamat" autocomplete="off"
                                 placeholder="Masukkan alamat...">
 
                             <label for="buku" class="form-label">Buku</label>
-                            <select v-model="peminjaman.id_buku" id="buku" class="form-control">
+                            <select v-model="peminjaman.id_buku" id="buku" required class="form-control">
                                 <option v-for="b in buku" :key="b.id_buku" :value="b.id_buku">{{ b.judul_buku }}</option>
                             </select>
 

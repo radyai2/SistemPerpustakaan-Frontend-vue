@@ -6,7 +6,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah buku</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -50,7 +50,7 @@
                         <div class="col-md-12">
                             <div class="card card-primary card-outline">
                                 <div class="card-body">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-bookmark-plus"></i></button>
                                     <br><br>
                                     <table class="table table-bordered">
                                         <thead>
@@ -70,9 +70,8 @@
                                                 <td>{{ buku.pengarang }}</td>
                                                 <td>
                                                     <div class="btn-group">
-                                                        <button class="btn btn-success" @click="showDetail(buku)">Detail</button>
-                                                        <router-link :to="{path: '/editbuku/'+buku.id_buku}" class="btn btn-primary"> Edit </router-link>
-                                                        <button type="button" class="btn btn-danger" @click="remove(buku)"> Hapus </button>
+                                                        <router-link :to="{path: '/editbuku/'+buku.id_buku}" class="btn btn-primary"> <i class="bi bi-pencil-square"></i> </router-link>
+                                                        <button type="button" class="btn btn-danger" @click="remove(buku)"> <i class="bi bi-trash"></i> </button>
                                                     </div>
                                                 </td>
                                             </tr>

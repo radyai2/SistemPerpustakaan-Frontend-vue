@@ -90,7 +90,7 @@
 
                                     <span v-if="tgl_kembali == null"><b>Keterangan:</b><span class="badge bg-warning">Belum
                                             kembali</span> </span>
-                                    <span v-else-if="tgl_kembali >= tenggat"><b>Keterangan:</b><span
+                                    <span v-else-if="tgl_kembali > tenggat"><b>Keterangan:</b><span
                                             class="badge bg-danger">Terlambat</span> </span>
                                     <span v-else><b>Keterangan:</b><span class="badge bg-success">Tepat waktu</span> </span>
                                     <br>
@@ -180,6 +180,9 @@ export default {
                         icon: 'success'
                     })
                     this.$router.push('/history')
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1200);
                 }
             )
         }

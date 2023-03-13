@@ -24,7 +24,7 @@
 
                                     <!-- <a href="/tambahpinjam" class="btn btn-primary mb-2">Tambah</a> -->
 
-                                    <table class="table table-bordered">
+                                    <table class="table table-bordered" ref="table">
                                         <thead>
                                             <tr>
                                                 <th style="width: 10px">ID</th>
@@ -53,9 +53,12 @@
                                                 <td>
                                                     <div class="btn-group">
                                                         <router-link :to="{ path: '/detailpeminjaman/' + p.id_peminjaman }"
-                                                            class="btn btn-primary"> Detail </router-link>
+                                                            class="btn btn-primary"> <i class="bi bi-search"></i>
+                                                        </router-link>
                                                         <button class="btn btn-danger" @click="hapus(p)"><i
                                                                 class="bi bi-trash"></i></button>
+                                                        <button class="btn btn-success" @click="generatePDF()"><i
+                                                                class="bi bi-cloud-download"></i></button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -77,7 +80,13 @@ import navbar from '../template/NavigationBar.vue'
 import sidebar from '../template/AppSidebar.vue'
 import axios from 'axios'
 import Vue from 'vue'
-// import swal from 'sweetalert'
+import swal from 'sweetalert'
+
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
+
+// npm install jspdf html2canvas --save 
+
 // import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 // import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 // import pagination from 'laravel-vue-pagination'
@@ -107,6 +116,44 @@ export default {
                         this.history = data
                     }
                 )
+        },
+        hapus(p) {
+            swal({
+                title: "Are you sure?",
+                text: "Kalo dah pencet 'OK' gk bisa di balikin!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    axios.delete('http://localhost:8000/api/deletepeminjaman/' + p.id_peminjaman)
+                    swal("Poof! data peminjaman sudah ke hapus!", {
+                        icon: "success",
+                        button: false
+                    });
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1200);
+                } else {
+                    swal("Oke datanya gk jadi di hapus!", { icon: 'success' });
+
+                }
+            });
+        },
+        generatePDF() {
+            const table = this.$refs.table;
+            html2canvas(table).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const tableWidth = table.offsetWidth;
+                const tableHeight = table.offsetHeight;
+                const imgWidth = pdf.internal.pageSize.getWidth() - 20;
+                const imgHeight = (tableHeight * imgWidth) / tableWidth;
+                const x = 10;
+                const y = 10;
+                pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+                pdf.save('History.pdf');
+            });
         }
     }
 }
