@@ -11,11 +11,11 @@
                     <div class="modal-body">
                         <form @submit.prevent="save">
                             <label for="nama" class="form-label">Nama Siswa:</label>
-                            <input type="text" class="form-control" v-model="siswa.nama_siswa" id="nama" autocomplete="off"
+                            <input type="text" class="form-control" required v-model="siswa.nama_siswa" id="nama" autocomplete="off"
                                 placeholder="Masukkan nama..">
 
                             <label for="tgl_lahir" class="form-label">Date:</label>
-                            <input type="date" class="form-control" v-model="siswa.tanggal_lahir" id="tgl_lahir"
+                            <input type="date" class="form-control" required v-model="siswa.tanggal_lahir" id="tgl_lahir"
                                 autocomplete="off">
 
                             <label for="gender" class="form-label">Gender: </label> <br>
@@ -29,10 +29,10 @@
                             </div><br>
 
                             <label for="umur">Umur:</label>
-                            <input type="number" class="form-control" v-model="siswa.umur" id="umur">
+                            <input type="number" class="form-control" required v-model="siswa.umur" id="umur">
 
                             <label for="alamat" class="form-label">Alamat:</label>
-                            <input type="text" class="form-control" v-model="siswa.alamat" id="alamat" autocomplete="off">
+                            <input type="text" class="form-control" required v-model="siswa.alamat" id="alamat" autocomplete="off">
 
                             <br>
                             <input type="submit" class="btn btn-primary">

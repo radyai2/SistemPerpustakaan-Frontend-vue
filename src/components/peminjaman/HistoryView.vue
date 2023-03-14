@@ -23,6 +23,12 @@
                                 <div class="card-body">
 
                                     <!-- <a href="/tambahpinjam" class="btn btn-primary mb-2">Tambah</a> -->
+                                    <div class="btn-group">
+                                        <button class="btn btn-outline-info mb-2" @click="generatePDF()"><i
+                                                class="bi bi-download"></i> PDF</button>
+                                        <button class="btn btn-outline-primary mb-2" @click="exportToExcel()"><i
+                                                class="bi bi-download"></i> EXCEL</button>
+                                    </div>
 
                                     <table class="table table-bordered" ref="table">
                                         <thead>
@@ -57,8 +63,6 @@
                                                         </router-link>
                                                         <button class="btn btn-danger" @click="hapus(p)"><i
                                                                 class="bi bi-trash"></i></button>
-                                                        <button class="btn btn-success" @click="generatePDF()"><i
-                                                                class="bi bi-cloud-download"></i></button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -82,10 +86,13 @@ import axios from 'axios'
 import Vue from 'vue'
 import swal from 'sweetalert'
 
+
+import xlsx from "xlsx/dist/xlsx.full.min"
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 
-// npm install jspdf html2canvas --save 
+// npm install xlsx --save
+// npm install exceljs --save
 
 // import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 // import { Bootstrap5Pagination } from 'laravel-vue-pagination';
@@ -154,6 +161,12 @@ export default {
                 pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
                 pdf.save('History.pdf');
             });
+        },
+        exportToExcel() {
+            const worksheet = xlsx.utils.json_to_sheet(this.history);
+            const workbook = xlsx.utils.book_new();
+            xlsx.utils.book_append_sheet(workbook, worksheet, 'history');
+            xlsx.writeFile(workbook, 'history_peminjaman.xlsx');
         }
     }
 }
