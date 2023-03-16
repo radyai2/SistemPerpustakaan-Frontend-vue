@@ -104,7 +104,7 @@ export default {
     },
     methods: {
         gethistory() {
-            axios.get('http://localhost:8000/api/getdenda')
+            axios.get('http://localhost:8000/api/getdenda', {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         this.denda = data
@@ -121,7 +121,7 @@ export default {
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        axios.put('http://localhost:8000/api/bayardenda/' + p.id_peminjaman)
+                        axios.put('http://localhost:8000/api/bayardenda/' + p.id_peminjaman, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                             .then((response) => { console.log(response) })
                         swal("Terima kasih telah telah membayar denda!", {
                             icon: "success",

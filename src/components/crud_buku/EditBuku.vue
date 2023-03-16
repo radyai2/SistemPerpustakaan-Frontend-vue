@@ -61,8 +61,8 @@ export default {
         }
     },
     methods: {
-        getBuku : function(){
-            axios.get('http://localhost:8000/api/getbuku')
+        getBuku(){
+            axios.get('http://localhost:8000/api/getbuku', {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
             .then(
                response => {
                 this.buku = response.data
@@ -70,7 +70,7 @@ export default {
             )
         },  
         getDetail(id_buku){
-           axios.get('http://localhost:8000/api/getbuku/' + id_buku)
+           axios.get('http://localhost:8000/api/getbuku/' + id_buku, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
            .then(
             response => {
                 console.log(response.data[0])
@@ -86,7 +86,7 @@ export default {
                 judul_buku : this.judul_buku,
                 pengarang: this.pengarang,
             }
-            axios.put('http://localhost:8000/api/updatebuku/' + this.id_buku, dataBuku)
+            axios.put('http://localhost:8000/api/updatebuku/' + this.id_buku, dataBuku, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
             .then(
                 res => {
                     swal({

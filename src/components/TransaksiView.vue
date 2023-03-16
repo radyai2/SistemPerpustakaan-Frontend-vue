@@ -173,7 +173,7 @@ export default {
     },
     methods: {
         getsiswa() {
-            axios.get('http://localhost:8000/api/getsiswa')
+            axios.get('http://localhost:8000/api/getsiswa',{headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         this.siswa = data
@@ -181,7 +181,7 @@ export default {
                 )
         },
         getbuku() {
-            axios.get('http://localhost:8000/api/getbuku')
+            axios.get('http://localhost:8000/api/getbuku',{headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         this.buku = data
@@ -189,7 +189,7 @@ export default {
                 )
         },
         getkelas() {
-            axios.get('http://localhost:8000/api/getkelas')
+            axios.get('http://localhost:8000/api/getkelas',{headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         this.kelas = data
@@ -200,7 +200,7 @@ export default {
             this.save_data()
         },
         save_data() {
-            axios.post('http://localhost:8000/api/createpeminjaman', this.peminjaman)
+            axios.post('http://localhost:8000/api/createpeminjaman', this.peminjaman, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         swal('Sukses tambah peminjaman', {
@@ -216,7 +216,7 @@ export default {
                 )
         },
         getpeminjaman() {
-            axios.get('http://localhost:8000/api/peminjaman')
+            axios.get('http://localhost:8000/api/peminjaman', {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         this.getpinjam = data
@@ -242,7 +242,7 @@ export default {
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
-                    axios.delete('http://localhost:8000/api/deletepeminjaman/' + p.id_peminjaman)
+                    axios.delete('http://localhost:8000/api/deletepeminjaman/' + p.id_peminjaman, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                     swal("Poof! data peminjaman sudah ke hapus!", {
                         icon: "success",
                         button: false
@@ -265,7 +265,7 @@ export default {
             })
                 .then((willDelete) => {
                     if (willDelete) {
-                        axios.put('http://localhost:8000/api/pengembalian/' + p.id_peminjaman)
+                        axios.put('http://localhost:8000/api/pengembalian/' + p.id_peminjaman, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                         swal("Poof! Berhasil mengembalikan buku!", {
                             icon: "success",
                             button: false
@@ -284,7 +284,7 @@ export default {
 
         //KALO MAU COPAS INI GK USAH DI COPAS
         filter() {
-            axios.get('http://localhost:8000/api/getstatus/' + this.getstatus)
+            axios.get('http://localhost:8000/api/getstatus/' + this.getstatus, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         this.siswa = data

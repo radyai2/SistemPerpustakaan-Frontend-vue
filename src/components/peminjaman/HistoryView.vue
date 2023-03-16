@@ -24,9 +24,9 @@
 
                                     <!-- <a href="/tambahpinjam" class="btn btn-primary mb-2">Tambah</a> -->
                                     <div class="btn-group">
-                                        <button class="btn btn-outline-info mb-2" @click="generatePDF()"><i
+                                        <button class="btn btn-outline-danger mb-2" @click="generatePDF()"><i
                                                 class="bi bi-download"></i> PDF</button>
-                                        <button class="btn btn-outline-primary mb-2" @click="exportToExcel()"><i
+                                        <button class="btn btn-outline-success mb-2" @click="exportToExcel()"><i
                                                 class="bi bi-download"></i> EXCEL</button>
                                     </div>
 
@@ -117,7 +117,7 @@ export default {
     },
     methods: {
         gethistory() {
-            axios.get('http://localhost:8000/api/gethistory')
+            axios.get('http://localhost:8000/api/gethistory', {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         this.history = data
@@ -131,9 +131,9 @@ export default {
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
-                    axios.delete('http://localhost:8000/api/deletepeminjaman/' + p.id_peminjaman)
+            }).then((response) => {
+                if (response) {
+                    axios.delete('http://localhost:8000/api/deletepeminjaman/' + p.id_peminjaman, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                     swal("Poof! data peminjaman sudah ke hapus!", {
                         icon: "success",
                         button: false
@@ -148,25 +148,58 @@ export default {
             });
         },
         generatePDF() {
-            const table = this.$refs.table;
-            html2canvas(table).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const tableWidth = table.offsetWidth;
-                const tableHeight = table.offsetHeight;
-                const imgWidth = pdf.internal.pageSize.getWidth() - 20;
-                const imgHeight = (tableHeight * imgWidth) / tableWidth;
-                const x = 10;
-                const y = 10;
-                pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
-                pdf.save('History.pdf');
-            });
+            swal({
+                title: 'Export PDF?',
+                buttons: true,
+                dangerMode: true
+            }).then(
+                (download) => {
+                    if (download) {
+                        const table = this.$refs.table;
+                        html2canvas(table).then(canvas => {
+                            const imgData = canvas.toDataURL('image/png');
+                            const pdf = new jsPDF('p', 'mm', 'a4');
+                            const tableWidth = table.offsetWidth;
+                            const tableHeight = table.offsetHeight;
+                            const imgWidth = pdf.internal.pageSize.getWidth() - 20;
+                            const imgHeight = (tableHeight * imgWidth) / tableWidth;
+                            const x = 10;
+                            const y = 10;
+                            pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight);
+                            pdf.save('History.pdf');
+                        });
+                        swal({
+                            icon: 'success',
+                            title: 'Downloaded',
+                            timer: 1000,
+                            buttons: false
+                        })
+                    }
+                }
+            )
         },
         exportToExcel() {
-            const worksheet = xlsx.utils.json_to_sheet(this.history);
-            const workbook = xlsx.utils.book_new();
-            xlsx.utils.book_append_sheet(workbook, worksheet, 'history');
-            xlsx.writeFile(workbook, 'history_peminjaman.xlsx');
+            swal({
+                title: "Export Excel?",
+                buttons: true,
+                dangerMode: true
+            }).then(
+                (download) => {
+                    if (download) {
+                        const worksheet = xlsx.utils.json_to_sheet(this.history);
+                        const workbook = xlsx.utils.book_new();
+                        xlsx.utils.book_append_sheet(workbook, worksheet, 'history');
+                        xlsx.writeFile(workbook, 'history_peminjaman.xlsx');
+
+                        swal({
+                            title: 'Downloaded',
+                            icon: 'success',
+                            timer: 1000,
+                            buttons: false
+                        })
+                    }
+                }
+            )
         }
     }
 }

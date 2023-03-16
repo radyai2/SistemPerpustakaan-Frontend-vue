@@ -84,7 +84,7 @@ export default {
     },
     methods: {
         GetSiswa() {
-            axios.get('http://127.0.0.1:8000/api/getsiswa')
+            axios.get('http://127.0.0.1:8000/api/getsiswa',{headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         this.siswa = data
@@ -92,7 +92,7 @@ export default {
                 );
         },
         DataKelas() {
-            axios.get('http://127.0.0.1:8000/api/getkelas')
+            axios.get('http://127.0.0.1:8000/api/getkelas',{headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         this.kelas = data
@@ -100,7 +100,7 @@ export default {
                 );
         },
         getdetail(id_siswa) {
-            axios.get('http://127.0.0.1:8000/api/getsiswa/' + id_siswa)
+            axios.get('http://127.0.0.1:8000/api/getsiswa/' + id_siswa,{headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then((response) => {
                     console.log(response.data[0])
                     this.id_siswa = response.data[0].id_siswa
@@ -121,7 +121,7 @@ export default {
                 alamat: this.alamat
 
             }
-            axios.put("http://127.0.0.1:8000/api/updatesiswa/" + this.id_siswa, DataSiswa)
+            axios.put("http://127.0.0.1:8000/api/updatesiswa/" + this.id_siswa, DataSiswa, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     res => {
                         swal({

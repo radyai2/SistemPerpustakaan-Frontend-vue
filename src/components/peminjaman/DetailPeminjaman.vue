@@ -145,7 +145,7 @@ export default {
     },
     methods: {
         getdetail(id) {
-            axios.get('http://localhost:8000/api/peminjaman/' + id)
+            axios.get('http://localhost:8000/api/peminjaman/' + id, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     (response) => {
                         console.log(response.data[0])
@@ -171,7 +171,7 @@ export default {
                 tenggat : this.tenggat,
                 denda : this.denda,
             }
-            axios.put('http://localhost:8000/api/editpeminjaman/' + this.id_peminjaman , datapeminjaman)
+            axios.put('http://localhost:8000/api/editpeminjaman/' + this.id_peminjaman , datapeminjaman, {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
             .then(
                 (response) => {
                     console.log(response)

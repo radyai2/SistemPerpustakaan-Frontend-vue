@@ -114,8 +114,8 @@ export default {
     },
     methods: {
         userLoad(){
-            var page = "http://127.0.0.1:8000/api/getbuku";
-            axios.get(page).then(
+            // var page = "http://127.0.0.1:8000/api/getbuku";
+            axios.get('http://127.0.0.1:8000/api/getbuku' , {headers : {'Authorization' : 'Bearer' + this.$store.state.token}}).then(
                 ({data})=>{
                     console.log(data);
                     this.result = data;
@@ -131,8 +131,8 @@ export default {
                 dangerMode: true,
             }).then((willDelete) => {
             if (willDelete) {
-                var url = 'http://127.0.0.1:8000/api/deletebuku/'+ buku.id_buku;
-                    axios.delete(url);
+                // var url = 'http://127.0.0.1:8000/api/deletebuku/'+ buku.id_buku;
+                    axios.delete('http://127.0.0.1:8000/api/deletebuku/'+ buku.id_buku , {headers : {'Authorization' : 'Bearer' + this.$store.state.token}});
                     swal("yah file nya udah kehapus!", {
                     title: "Poof!",
                 icon: "error",
@@ -152,7 +152,7 @@ export default {
             this.save_data();
         },
         save_data(){
-            axios.post('http://127.0.0.1:8000/api/createbuku', this.buku)
+            axios.post('http://127.0.0.1:8000/api/createbuku', this.buku ,  {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
             .then(
                 ({data}) => {
                     swal({

@@ -8,6 +8,19 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   plugins: [createPersistedState()],
   modules: {
+  },
+  state: {
+    token: localStorage.getItem('auth') || ''
+  },
+  mutations: {
+    setToken(state, token) {
+      localStorage.setItem('auth', token);
+      state.token = token;
+    }
+  },
+  clearToken(state) {
+    localStorage.removeItem('auth')
+    state.token = ''
   }
 })
 

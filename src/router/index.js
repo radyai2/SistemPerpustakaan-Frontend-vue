@@ -12,6 +12,7 @@ import detailpeminjaman from '../components/peminjaman/DetailPeminjaman.vue'
 import tambahpinjam from '../components/peminjaman/TambahPeminjaman.vue'
 import denda from '../components/peminjaman/DendaView.vue'
 import history from '../components/peminjaman/HistoryView.vue'
+import login from '../views/LoginView.vue'
 
 Vue.use(VueRouter)
 Vue.use(require('vue-moment'))
@@ -20,59 +21,99 @@ const routes = [
   {
     path: '/',
     name: 'DashboardView',
-    component: DashboardView
+    component: DashboardView,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/user',
     name: 'UserView',
-    component: UserView
+    component: UserView,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/buku',
     name: 'BukuView',
-    component: BukuView
+    component: BukuView,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/tambahsiswa',
     name: 'TambahSiswa',
-    component: TambahSiswa
+    component: TambahSiswa,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/tambahbuku',
     name: 'TambahBuku',
-    component: TambahBuku
+    component: TambahBuku,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     name: 'Edit',
     path: '/editsiswa/:id',
     component: EditSiswa,
-    props: true
+    props: true,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     name: 'EditBuku',
     path: '/editbuku/:id',
     component: EditBuku,
-    props: true
+    props: true,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/peminjaman',
-    component: Peminjaman
+    component: Peminjaman,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/detailpeminjaman/:id',
-    component: detailpeminjaman
+    component: detailpeminjaman,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/tambahpinjam',
-    component: tambahpinjam
+    component: tambahpinjam,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/denda',
-    component: denda
+    component: denda,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/history',
-    component: history
+    component: history,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/login',
+    component: login,
   }
 
 
@@ -82,6 +123,17 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (localStorage.getItem('auth')) {
+      next()
+    } else {
+      next('/login')
+    }
+  }
+  next()
 })
 
 export default router

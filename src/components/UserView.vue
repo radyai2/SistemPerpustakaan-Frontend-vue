@@ -213,8 +213,8 @@ export default {
         // },
 
         GetSiswa() {
-            var page = "http://127.0.0.1:8000/api/getsiswa";
-            axios.get(page).then(
+            // var page = "http://127.0.0.1:8000/api/getsiswa";
+            axios.get('http://127.0.0.1:8000/api/getsiswa' , {headers : {'Authorization' : 'Bearer' + this.$store.state.token}} ).then(
                 ({ data }) => {
                     console.log(data);
                     this.result = data;
@@ -222,7 +222,7 @@ export default {
             );
         },
         getkelas() {
-            axios.get('http://127.0.0.1:8000/api/getkelas')
+            axios.get('http://127.0.0.1:8000/api/getkelas' , {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         console.log(data);
@@ -234,7 +234,7 @@ export default {
             this.save_data();
         },
         save_data() {
-            axios.post('http://127.0.0.1:8000/api/createsiswa', this.siswa, this.kelas)
+            axios.post('http://127.0.0.1:8000/api/createsiswa', this.siswa, this.kelas , {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then(
                     ({ data }) => {
                         swal("Sukses tambah siswa", {
@@ -257,8 +257,8 @@ export default {
             }).then((willDelete) => {
                 if (willDelete) {
 
-                    var url = 'http://127.0.0.1:8000/api/deletesiswa/' + siswa.id_siswa;
-                    axios.delete(url);
+                    // var url = 'http://127.0.0.1:8000/api/deletesiswa/' + siswa.id_siswa;
+                    axios.delete('http://127.0.0.1:8000/api/deletesiswa/' + siswa.id_siswa , {headers : {'Authorization' : 'Bearer' + this.$store.state.token}});
 
                     swal("yah file nya udah kehapus!", {
                         title: "Poof!",
@@ -294,7 +294,7 @@ export default {
             })
         },
         getDetail(siswa) {
-            axios.get('http://localhost:8000/api/getsiswa/' + siswa.id_siswa)
+            axios.get('http://localhost:8000/api/getsiswa/' + siswa.id_siswa , {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
                 .then((response) => {
                     console.log(response.data[0])
                     this.nama_siswa = response.data[0].nama_siswa

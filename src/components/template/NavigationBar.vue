@@ -8,12 +8,34 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <button class="btn btn-sm btn-warning"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                <button class="btn btn-sm btn-warning" @click="logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </li>
         </ul>
     </nav>
 </template>
 
 <script>
+    import axios from 'axios'
+    export default{
+        methods: {
+            logout(){
+                axios.post('http://localhost:8000/api/logout', {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
+                .then(
+                    (response) => {
+                        // localStorage.removeItem('token')
+                        // localStorage.removeItem('user')
+                        this.$store.commit('clearToken')
+                        console.log(response);
 
+                        this.$router.push('/login')
+                    }
+                )
+                .catch(
+                    error => {
+                        console.log(error.response.data);
+                    }
+                )
+            }
+        }
+    }
 </script>
