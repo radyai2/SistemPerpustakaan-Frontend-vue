@@ -4,7 +4,7 @@
             <li class="nav-item">
                 <!-- <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a> -->
                 <button class="btn" data-widget="pushmenu"><i class="fas fa-bars"></i></button>
-            </li>      
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -15,27 +15,34 @@
 </template>
 
 <script>
-    import axios from 'axios'
-    export default{
-        methods: {
-            logout(){
-                axios.post('http://localhost:8000/api/logout', {headers : {'Authorization' : 'Bearer' + this.$store.state.token}})
-                .then(
-                    (response) => {
-                        // localStorage.removeItem('token')
-                        // localStorage.removeItem('user')
-                        this.$store.commit('clearToken')
-                        console.log(response);
+// import axios from 'axios'
+import swall from 'sweetalert'
+export default {
+    methods: {
+        logout() {
+            // localStorage.removeItem('token')
+            // localStorage.removeItem('user')
+            swall({
+                icon: "warning",
+                title: "Ingin LogOut?",
+                dangerMode: true,
+                buttons: true,
 
-                        this.$router.push('/login')
+            }).then(
+                (logout) => {
+                    if (logout) {
+                        this.$store.commit('clearToken')
+                        location.href = '/'
                     }
-                )
+                }
+            )
+
                 .catch(
                     error => {
                         console.log(error.response.data);
                     }
                 )
-            }
         }
     }
+}
 </script>

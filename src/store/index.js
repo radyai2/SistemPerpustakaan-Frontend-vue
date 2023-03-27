@@ -16,12 +16,12 @@ const store = new Vuex.Store({
     setToken(state, token) {
       localStorage.setItem('auth', token);
       state.token = token;
+    },
+    clearToken(state) {
+      localStorage.removeItem('auth')
+      state.token = null
     }
   },
-  clearToken(state) {
-    localStorage.removeItem('auth')
-    state.token = ''
-  }
 })
 
 export default store
